@@ -6,8 +6,10 @@ if (!$node_id) {
     exit;
 }
 $url = 'http://data.gov.tw/node/' . $node_id;
+$agent = "data.govapi.tw by IP: {$_SERVER['REMOTE_ADDR']}";
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_USERAGENT, $agent);
 $content = curl_exec($curl);
 $info = curl_getinfo($curl);
 if ($info['http_code'] != 200) {
