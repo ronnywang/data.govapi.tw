@@ -14,6 +14,7 @@
     <ol>
         <li>本服務程式碼位於 <a href="https://github.com/ronnywang/data.govapi.tw">https://github.com/ronnywang/data.govapi.tw</a> 程式碼以 BSD License 開放授權</li>
         <li>由於是每次都直接存取原始網頁，若原始網頁故障本服務也會一起故障</li>
+        <li>在存取原始網頁時，會在 user agent 中帶入存取者的 IP，以便讓原始網頁管理者可以知道確切存取人是誰，若無法接受自己的 IP 被 data.gov.tw 得知，請勿使用本服務</li>
         <li>若原始網頁改版，本服務未一起改版也會出現不正確的結果，若發現有異常請至 github 送出 issues ，或者也可協助送出 pull request</li>
         <li>本服務不開放 CORS ，以避免透過瀏覽器大量使用造成對原始網頁過度存取影響到原服務</li>
         <li>若您覺得這服務很有幫助，可以至 <a href="http://ronny.tw">ronny.tw</a> 贊助 ronny</li>
