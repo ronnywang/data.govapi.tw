@@ -8,13 +8,13 @@ function error($message) {
 // data.gov.tw/_static/...
 if (strpos($_SERVER['REQUEST_URI'], '/_static/')) {
     if (strpos($_SERVER['REQUEST_URI'], '/..')) {
-        header('404 Not Found', true, 404);
+        header('HTTP/1.0 404 Not Found', true, 404);
         echo 'bad url';
         exit;
     }
     $file = __DIR__ . $_SERVER['REQUEST_URI'];
     if (!file_exists($file) or !is_file($file)) {
-        header('404 Not Found', true, 404);
+        header('HTTP/1.0 404 Not Found', true, 404);
         echo '404';
         exit;
     }
@@ -35,6 +35,6 @@ if (preg_match('#/node/([0-9]*)#', $_SERVER['REQUEST_URI'], $matches)) {
     exit;
 }
 
-header('404 Not Found', true, 404);
+header('HTTP/1.0 404 Not Found', true, 404);
 echo 404;
 exit;
