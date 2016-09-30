@@ -58,4 +58,4 @@ echo json_encode(array(
     'error' => false,
     'url' => $url,
     'data' => $ret,
-));
+), JSON_UNESCAPED_UNICODE);
