@@ -22,7 +22,7 @@ $doc = new DOMDocument;
 
 
 $ret = array();
-$ret['title'] = trim($doc->getElementsByTagName('h1')->item(0)->nodeValue);
+$ret['title'] = trim($doc->getElementById('content')->getElementsByTagName('h1')->item(0)->nodeValue);
 foreach ($doc->getElementsByTagName('th') as $th_dom) {
     $name = $th_dom->nodeValue;
     $value_dom = $th_dom->nextSibling;
