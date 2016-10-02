@@ -56,6 +56,15 @@ foreach ($doc->getElementsByTagName('th') as $th_dom) {
         $ret[$name] = trim($value_dom->nodeValue);
     }
 }
+
+foreach ($doc->getElementsByTagName('li') as $li_dom) {
+    if ($li_dom->getAttribute('class') == 'statistics_counter') {
+        $ret['瀏覽次數'] = intval(explode('：', trim($li_dom->nodeValue))[1]);
+    } else if (strpos($li_dom->getAttribute('class'), 'statistics_download_counter') !== false) {
+        $ret['下載次數'] = intval(explode(': ', trim($li_dom->nodeValue))[1]);
+    }
+}
+
 echo json_encode(array(
     'error' => false,
     'url' => $url,
