@@ -22,6 +22,7 @@ $doc = new DOMDocument;
 
 
 $ret = array();
+$ret['id'] = $node_id;
 $ret['title'] = trim($doc->getElementById('post-content')->getElementsByTagName('h1')->item(0)->nodeValue);
 foreach ($doc->getElementsByTagName('th') as $th_dom) {
     $name = $th_dom->nodeValue;
