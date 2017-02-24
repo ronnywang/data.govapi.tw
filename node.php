@@ -39,17 +39,54 @@ foreach ($doc->getElementsByTagName('th') as $th_dom) {
 
     if ($name == '資料資源') {
         $ret[$name] = array();
-        foreach ($value_dom->getElementsByTagName('a') as $a_dom) {
-            if (in_array(strtolower($a_dom->nodeValue), array('doc', 'word', 'pdf', 'webservice'))) {
-                continue;
+        while (true) {
+            foreach ($value_dom->getElementsByTagName('tr') as $tr_dom) {
+                $td_doms = $tr_dom->getElementsByTagName('td');
+
+                $type = trim(strtolower($td_doms->item(0)->nodeValue));
+                $url = 'http://data.gov.tw' . $td_doms->item(0)->getElementsByTagName('a')->item(0)->getAttribute('href');
+                $desc = trim($td_doms->item(2)->nodeValue);
+                $ret[$name][] = array(
+                    'type' => $type,
+                    'url' => $url,
+                    'description' => $desc,
+                );
             }
-            if ($a_dom->nodeValue == '檢視資料' or trim($a_dom->nodeValue) == '') {
-                continue;
+
+            foreach ($value_dom->getElementsByTagName('li') as $li_dom) {
+                if ($li_dom->getAttribute('class') == 'pager-next') {
+                    $next_url = 'http://data.gov.tw' . $li_dom->getElementsByTagName('a')->item(0)->getAttribute('href');
+                    $curl = curl_init($next_url);
+                    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($curl, CURLOPT_USERAGENT, $agent);
+                    $content = curl_exec($curl);
+                    $info = curl_getinfo($curl);
+                    if ($info['http_code'] != 200) {
+                        error("找不到這資料, $next_url (code={$info['http_code']})");
+                    }
+                    curl_close($curl);
+
+                    $next_doc = new DOMDocument;
+                    @$next_doc->loadHTML($content);
+                    foreach ($next_doc->getElementsByTagName('th') as $th_dom) {
+                        $name = $th_dom->nodeValue;
+                        $value_dom = $th_dom->nextSibling;
+                        while ($value_dom) {
+                            if ($value_dom->nodeType == XML_ELEMENT_NODE) {
+                                break;
+                            }
+                            $value_dom = $value_dom->nextSibling;
+                        }
+                        if (!$value_dom) {
+                            continue;
+                        }
+                        if ($name == '資料資源') {
+                            continue 3;
+                        }
+                    }
+                }
             }
-            $ret[$name][] = array(
-                'type' => strtolower($a_dom->nodeValue),
-                'url' => 'http://data.gov.tw' . $a_dom->getAttribute('href'),
-            );
+            break;
         }
     } elseif ($name == '資料集評分') {
         continue;
