@@ -29,8 +29,8 @@ if ($_SERVER['REQUEST_URI'] == '/') {
 }
 
 // data.gov.tw/node/12345
-if (preg_match('#/node/([0-9]*)#', $_SERVER['REQUEST_URI'], $matches)) {
-    $node_id = $matches[1];
+if (preg_match('#/(node|dataset)/([0-9]*)#', $_SERVER['REQUEST_URI'], $matches)) {
+    $node_id = $matches[2];
     include('node.php');
     exit;
 }
