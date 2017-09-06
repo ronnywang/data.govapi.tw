@@ -5,7 +5,7 @@ if (!$node_id) {
     error("no node_id");
     exit;
 }
-$url = 'http://data.gov.tw/dataset/' . $node_id;
+$url = 'https://data.gov.tw/dataset/' . $node_id;
 $agent = "data.govapi.tw by IP: {$_SERVER['REMOTE_ADDR']}";
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
